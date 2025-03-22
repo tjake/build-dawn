@@ -1,7 +1,7 @@
-
 name: build-dawn
 
 on:
+  workflow_dispatch
   schedule:
     - cron: "0 0 * * 0"
   push:
@@ -20,36 +20,56 @@ jobs:
         run: |
           echo DAWN_COMMIT=`git ls-remote https://dawn.googlesource.com/dawn HEAD | awk '{ print $1 }'` >> ${GITHUB_OUTPUT}
           echo BUILD_DATE=`date +'%Y-%m-%d'` >> ${GITHUB_OUTPUT}
-      
+
   build:
-    runs-on: windows-2022
+    runs-on: ${{ matrix.build.os }}
     needs: info
     strategy:
       matrix:
-        arch: [x64, arm64]
+        build:
+          - { os: windows-2022, arch: x64 }
+          - { os: windows-2022, arch: arm64 }
+          - { os: ubuntu-24.04, arch: x86_64 }
+          - { os: ubuntu-24.04, arch: arm64 }
+          - { os: macos-12, arch: x86_64 }
+          - { os: macos-14, arch: arm64 }
     env:
       DAWN_COMMIT: ${{ needs.info.outputs.DAWN_COMMIT }}
       BUILD_DATE: ${{ needs.info.outputs.BUILD_DATE }}
+      OS: ${{ matrix.build.os }}
+      ARCH: ${{ matrix.build.arch }}
     steps:
-
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Windows SDK v10.0.26100.0
+      - name: Install Dependencies (Linux)
+        if: matrix.build.os == 'ubuntu-24.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake ninja-build
+          # Add arm64 toolchain if needed for cross-compilation, e.g., g++-aarch64-linux-gnu
+
+      - name: Install Windows SDK
+        if: matrix.build.os == 'windows-2022'
         shell: cmd
         run: |
           "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe" modify --installPath "C:\Program Files\Microsoft Visual Studio\2022\Enterprise" --quiet --force --norestart --add Microsoft.VisualStudio.Component.Windows11SDK.26100
 
       - name: Run Build Script
         id: build
-        shell: cmd
-        run: call build.cmd ${{ matrix.arch }}
+        shell: bash
+        run: |
+          if [ "${{ matrix.build.os }}" == "windows-2022" ]; then
+            cmd /c build.cmd ${{ matrix.build.arch }}
+          else
+            ./build.sh ${{ matrix.build.arch }}
+          fi
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: dawn-${{ matrix.arch }}-${{ needs.info.outputs.BUILD_DATE }}
-          path: dawn-${{ matrix.arch }}-${{ needs.info.outputs.BUILD_DATE }}.zip
+          name: dawn-${{ matrix.build.os }}-${{ matrix.build.arch }}-${{ needs.info.outputs.BUILD_DATE }}
+          path: dawn-${{ matrix.build.os }}-${{ matrix.build.arch }}-${{ needs.info.outputs.BUILD_DATE }}.zip
           if-no-files-found: error
           compression-level: 0
 
@@ -61,7 +81,6 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
-
       - name: Create GitHub Release
         run: |
           echo '[dawn commit](https://dawn.googlesource.com/dawn/+/${{ needs.info.outputs.DAWN_COMMIT }})' >>notes.txt
