@@ -12,7 +12,7 @@ jobs:
       - name: Get Latest Commit Id
         id: info
         run: |
-          echo DAWN_COMMIT=`git ls-remote https://dawn.googlesource.com/dawn HEAD | awk '{ print $1 }'` >> ${GITHUB_OUTPUT}
+          echo DAWN_COMMIT=`git ls-remote https://dawn.googlesource.com/dawn | grep "refs/heads/chromium" | tail -1 | awk '{ print $1 }'` >> ${GITHUB_OUTPUT}
           echo BUILD_DATE=`date +'%Y-%m-%d'` >> ${GITHUB_OUTPUT}
 
   build:
