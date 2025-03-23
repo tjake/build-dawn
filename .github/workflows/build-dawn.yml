@@ -26,20 +26,6 @@ jobs:
           fi
           echo "DAWN_COMMIT=$COMMIT_SHA" >> ${GITHUB_OUTPUT}
           echo "BUILD_DATE=`date +'%Y-%m-%d'`" >> ${GITHUB_OUTPUT}
-        env:
-          DEFAULT_DAWN_COMMIT: "some-default-sha-here"  # Optional: Replace with a real default SHA if desired
-
-  info:
-    runs-on: ubuntu-24.04
-    outputs:
-      DAWN_COMMIT: ${{ steps.info.outputs.DAWN_COMMIT }}
-      BUILD_DATE: ${{ steps.info.outputs.BUILD_DATE }}
-    steps:
-      - name: Get Latest Commit Id
-        id: info
-        run: |
-          echo DAWN_COMMIT=`git ls-remote https://dawn.googlesource.com/dawn | grep "refs/heads/chromium" | tail -1 | awk '{ print $1 }'` >> ${GITHUB_OUTPUT}
-          echo BUILD_DATE=`date +'%Y-%m-%d'` >> ${GITHUB_OUTPUT}
 
   build:
     runs-on: ${{ matrix.build.os }}
