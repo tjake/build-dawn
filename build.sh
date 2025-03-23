@@ -79,9 +79,9 @@ mkdir -p dawn-$ARCH/bin
 echo $DAWN_COMMIT > dawn-$ARCH/commit.txt
 
 cp dawn.build-$ARCH/gen/include/dawn/webgpu.h dawn-$ARCH/include
-cp dawn.build-$ARCH/Release/webgpu_dawn.so dawn-$ARCH/lib | true
-cp dawn.build-$ARCH/Release/webgpu_dawn.dylib  dawn-$ARCH/lib | true
-cp dawn.build-$ARCH/Release/tint              dawn-$ARCH/bin
+cp dawn.build-$ARCH/src/dawn/native/libwebgpu_dawn.so dawn-$ARCH/lib || true
+cp dawn.build-$ARCH/src/dawn/native/libwebgpu_dawn.dylib  dawn-$ARCH/lib || true
+cp dawn.build-$ARCH/tint              dawn-$ARCH/bin
 
 
 zip -r dawn-$ARCH-$BUILD_DATE.zip dawn-$ARCH
