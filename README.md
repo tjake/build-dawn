@@ -9,11 +9,12 @@ To use in your code - either load the `webgpu_dawn.dll` file dynamically or link
 ### For Linux/Mac
 Build includes single `libwebgpu_dawn.so` or `libwebgpu_dawn.dylib`
 
-Download binary build as zip archive from [latest release][] page.
 
+### Downloads
+Download binary build as zip archive from [latest release][] page.
 
 For small example of using Dawn in C see this [gist][].
 
 [dawn]: https://dawn.googlesource.com/dawn/
-[latest release]: https://github.com/mmozeiko/build-dawn/releases/latest
+[latest release]: https://github.com/tjake/build-dawn/releases/latest
 [gist]: https://gist.github.com/mmozeiko/4c68b91faff8b7026e8c5e44ff810b62
