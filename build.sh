@@ -1,5 +1,4 @@
-#!/bin/env bash
-
+#!/bin/bash
 
 # first argument is the architecture valid values are x64, arm, arm64
 ARCH=$1
