@@ -72,7 +72,7 @@ cmake \
   -D TINT_BUILD_SPV_WRITER=ON                 \
   -D TINT_BUILD_CMD_TOOLS=ON
 
-cmake --build dawn.build-$ARCH --config Release --target webgpu_dawn tint_cmd_tint_cmd --parallel
+cmake --build dawn.build-$ARCH --config Release --target webgpu_dawn tint_cmd_tint_cmd
 
 # copy the output to the output directory
 mkdir dawn-$ARCH
