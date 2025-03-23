@@ -37,8 +37,8 @@ jobs:
           - { os: windows-2022, arch: arm64, name: win }
           - { os: ubuntu-24.04, arch: x86_64, name: linux }
           - { os: ubuntu-24.04, arch: arm64, name: linux }
-          - { os: macos-12, arch: x86_64, name: mac }
-          - { os: macos-14, arch: arm64, name: mac }
+          - { os: macos-13, arch: x86_64, name: mac }
+          - { os: macos-latest, arch: arm64, name: mac }
     env:
       DAWN_COMMIT: ${{ needs.info.outputs.DAWN_COMMIT }}
       BUILD_DATE: ${{ needs.info.outputs.BUILD_DATE }}
