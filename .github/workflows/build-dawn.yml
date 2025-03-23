@@ -21,12 +21,12 @@ jobs:
     strategy:
       matrix:
         build:
-          - { os: windows-2022, arch: x64 }
-          - { os: windows-2022, arch: arm64 }
-          - { os: ubuntu-24.04, arch: x86_64 }
-          - { os: ubuntu-24.04, arch: arm64 }
-          - { os: macos-12, arch: x86_64 }
-          - { os: macos-14, arch: arm64 }
+          - { os: windows-2022, arch: x64, name: win }
+          - { os: windows-2022, arch: arm64, name: win }
+          - { os: ubuntu-24.04, arch: x86_64, name: linux }
+          - { os: ubuntu-24.04, arch: arm64, name: linux }
+          - { os: macos-12, arch: x86_64, name: mac }
+          - { os: macos-14, arch: arm64, name: mac }
     env:
       DAWN_COMMIT: ${{ needs.info.outputs.DAWN_COMMIT }}
       BUILD_DATE: ${{ needs.info.outputs.BUILD_DATE }}
@@ -62,8 +62,8 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: dawn-${{ matrix.build.os }}-${{ matrix.build.arch }}-${{ needs.info.outputs.BUILD_DATE }}
-          path: dawn-${{ matrix.build.os }}-${{ matrix.build.arch }}-${{ needs.info.outputs.BUILD_DATE }}.zip
+          name: dawn-${{ matrix.build.name }}-${{ matrix.build.arch }}-${{ needs.info.outputs.BUILD_DATE }}
+          path: dawn-${{ matrix.build.arch }}-${{ needs.info.outputs.BUILD_DATE }}.zip
           if-no-files-found: error
           compression-level: 0
 
