@@ -105,7 +105,7 @@ cmake.exe                                     ^
   || exit /b 1
 
 set CL=/Wv:18
-cmake.exe --build dawn.build-%ARCH% --config Release --target webgpu_dawn tint_cmd_tint_cmd --parallel || exit /b 1
+cmake.exe --build dawn.build-%ARCH% --config Release --target webgpu_dawn  --parallel || exit /b 1
 
 rem
 rem prepare output folder
@@ -117,7 +117,6 @@ echo %DAWN_COMMIT% > dawn-%ARCH%\commit.txt
 
 copy /y dawn.build-%ARCH%\gen\include\dawn\webgpu.h               dawn-%ARCH%
 copy /y dawn.build-%ARCH%\Release\webgpu_dawn.dll                 dawn-%ARCH%
-copy /y dawn.build-%ARCH%\Release\tint.exe                        dawn-%ARCH%
 copy /y dawn.build-%ARCH%\src\dawn\native\Release\webgpu_dawn.lib dawn-%ARCH%
 
 rem

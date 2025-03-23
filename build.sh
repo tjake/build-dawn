@@ -68,7 +68,7 @@ cmake \
   -D TINT_BUILD_SPV_WRITER=ON                 \
   -D TINT_BUILD_CMD_TOOLS=ON
 
-cmake --build dawn.build-$ARCH --config Release --target webgpu_dawn tint_cmd_tint_cmd
+cmake --build dawn.build-$ARCH --config Release --target webgpu_dawn
 
 # copy the output to the output directory
 mkdir dawn-$ARCH
@@ -81,7 +81,6 @@ echo $DAWN_COMMIT > dawn-$ARCH/commit.txt
 cp dawn.build-$ARCH/gen/include/dawn/webgpu.h dawn-$ARCH/include
 cp dawn.build-$ARCH/src/dawn/native/libwebgpu_dawn.so dawn-$ARCH/lib || true
 cp dawn.build-$ARCH/src/dawn/native/libwebgpu_dawn.dylib  dawn-$ARCH/lib || true
-cp dawn.build-$ARCH/tint              dawn-$ARCH/bin
 
 
 zip -r dawn-$ARCH-$BUILD_DATE.zip dawn-$ARCH
