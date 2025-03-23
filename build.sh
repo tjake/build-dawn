@@ -11,7 +11,7 @@ if [ -z "$ARCH" ]; then
 fi
 
 # check if ARCH is valid
-if [ "$ARCH" != "x64" ] && [ "$ARCH" != "arm" ] && [ "$ARCH" != "arm64" ] && && [ "$ARCH" != "x86_64" ]; then
+if [ "$ARCH" != "x64" ] && [ "$ARCH" != "arm" ] && [ "$ARCH" != "arm64" ] && [ "$ARCH" != "x86_64" ]; then
   # error out if ARCH is not valid
   echo "ARCH is not valid $ARCH"
   exit 1
