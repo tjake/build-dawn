@@ -96,7 +96,14 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           pattern: dawn-*-${{ needs.info.outputs.BUILD_DATE }}
-          merge-multiple: true
+          path: artifacts
+
+      - name: Prepare Files for Upload
+        run: |
+          for dir in artifacts/dawn-*-${{ needs.info.outputs.BUILD_DATE }}; do
+            artifact_name=$(basename "$dir")
+            mv "$dir"/*.zip "./$artifact_name.zip"
+          done
 
       - name: Upload Artifacts to GitHub Release
         run: gh release upload '${{ needs.info.outputs.BUILD_DATE }}' dawn-*-${{ needs.info.outputs.BUILD_DATE }}.zip -R "${GITHUB_REPOSITORY}"
