@@ -1,12 +1,6 @@
 name: build-dawn
 
-on:
-  workflow_dispatch
-  schedule:
-    - cron: "0 0 * * 0"
-  push:
-    branches:
-      - main
+on: workflow_dispatch
 
 jobs:
   info:
