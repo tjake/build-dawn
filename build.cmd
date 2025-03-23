@@ -53,7 +53,8 @@ rem clone dawn
 rem
 
 if "%DAWN_COMMIT%" equ "" (
-  for /f "tokens=1 usebackq" %%F IN (`git ls-remote https://dawn.googlesource.com/dawn HEAD`) do set DAWN_COMMIT=%%F
+  echo ERROR: DAWN_COMMIT is not set
+  exit /b 1
 )
 
 if not exist dawn (
@@ -133,5 +134,11 @@ if "%GITHUB_WORKFLOW%" neq "" (
   rem GitHub actions stuff
   rem
 
-  %SZIP% a -y -mx=9 dawn-%ARCH%-%BUILD_DATE%.zip dawn-%ARCH% || exit /b 1
+  pushd dawn-%ARCH%
+
+  %SZIP% a -y -mx=9 dawn-%ARCH%-%BUILD_DATE%.zip * || exit /b 1
+
+  popd
+  copy /y dawn-%ARCH%\dawn-%ARCH%-%BUILD_DATE%.zip dawn-%ARCH%-%BUILD_DATE%.zip
+
 )
