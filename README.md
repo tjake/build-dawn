@@ -1,13 +1,18 @@
-Automatic weekly build of [dawn][] WebGPU implementation for 64-bit Windows (x64 and arm64).
+Periodic builds of [dawn][] WebGPU implementation for Mac, Linux and Windows (x64 and arm64).
 
-Build produces single `webgpu_dawn.dll` file that exports all public Dawn WebGPU C functions.
+All builds include `webgpu.h` for use with the dawn shared library.
+
+### For Windows
+Build includes a single `webgpu_dawn.dll` file that exports all public Dawn WebGPU C functions.
 To use in your code - either load the `webgpu_dawn.dll` file dynamically or link to it via `webgpu_dawn.lib` import library.
+
+### For Linux/Mac
+Build includes single `libwebgpu_dawn.so` or `libwebgpu_dawn.dylib`
 
 Download binary build as zip archive from [latest release][] page.
 
-To build locally run `build.cmd` batch file, make sure you have installed all necessary dependencies (see the beginning of file).
 
-For small example of using Dawn in C see my [gist][].
+For small example of using Dawn in C see this [gist][].
 
 [dawn]: https://dawn.googlesource.com/dawn/
 [latest release]: https://github.com/mmozeiko/build-dawn/releases/latest
