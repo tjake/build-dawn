@@ -52,7 +52,6 @@ popd
 cmake \
   -S dawn                                     \
   -B dawn.build-$ARCH                         \
-  -A $ARCH,version=10.0.26100.0               \
   -D CMAKE_BUILD_TYPE=Release                 \
   -D CMAKE_POLICY_DEFAULT_CMP0091=NEW         \
   -D CMAKE_POLICY_DEFAULT_CMP0092=NEW         \
