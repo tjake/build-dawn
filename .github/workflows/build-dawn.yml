@@ -1,8 +1,34 @@
 name: build-dawn
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      dawn_commit:
+        description: 'Dawn commit SHA to build'
+        required: false
+        type: string
+
 
 jobs:
+  info:
+    runs-on: ubuntu-24.04
+    outputs:
+      DAWN_COMMIT: ${{ steps.info.outputs.DAWN_COMMIT }}
+      BUILD_DATE: ${{ steps.info.outputs.BUILD_DATE }}
+    steps:
+      - name: Set Commit SHA and Build Date
+        id: info
+        run: |
+          # Use input if provided (workflow_dispatch), otherwise fallback to a default or env var
+          COMMIT_SHA="${{ github.event.inputs.dawn_commit }}"
+          if [ -z "$COMMIT_SHA" ]; then
+             COMMIT_SHA=`git ls-remote https://dawn.googlesource.com/dawn | grep "refs/heads/chromium" | tail -1 | awk '{ print $1 }'`
+          fi
+          echo "DAWN_COMMIT=$COMMIT_SHA" >> ${GITHUB_OUTPUT}
+          echo "BUILD_DATE=`date +'%Y-%m-%d'`" >> ${GITHUB_OUTPUT}
+        env:
+          DEFAULT_DAWN_COMMIT: "some-default-sha-here"  # Optional: Replace with a real default SHA if desired
+
   info:
     runs-on: ubuntu-24.04
     outputs:
